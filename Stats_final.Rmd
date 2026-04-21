@@ -19,5 +19,86 @@ library(tidyverse)
 
 ```{r}
 ed_df <- read.csv('c:/Statistical_Methods/education_career_success.csv')
+ed_df
 
 ```
+First we analyze the data.
+
+In this section we will investigate the number of alumni that went on to have senior level jobs, this will be our success, and 
+mid and entry level will count as our failure. In this section we will take a simple random sample of 50 alumni to determine the number of success is from binomial distribution.
+
+# Section 1.1
+
+```{r}
+# Senior Job level will be treated as success
+ed_df %>%
+  count(Current_Job_Level)
+
+prop <- 59/(80+261)
+prop
+```
+
+##a)
+1. n = 70, fixed number.
+2. Trials are independent and do not affect the outcome of other.
+3. There are only 2 outcomes, Senior = success, all others = failure.
+4. p = 0.02174981, is constant from the given population data.
+
+
+##b)
+Now we will find the mean of the of the binomial random sample, so that we can determine the probability of the random varaible
+is more than its mean.
+
+```{r}
+mean_sample <- 70 * prop
+mean_sample
+```
+We will check the probability that the random variable is more than its mean
+
+```{r}
+1 - pbinom(q=mean_sample, size=70, prob=prop)
+
+```
+We find that the probability that the random variable is more than 8.651026 to be  0.4377059.
+
+##c)
+Next we describe the sampling distribution.
+
+population = 400 alumni
+sample = 70 random alumni
+variable = Alumni in senior level positions
+p_hat = .1730205
+sd =.05349475
+10.016 > 10
+
+```{r}
+
+n <- 70
+p <- prop
+
+mean_phat <- p
+sd_phat <- sqrt(p * (1 - p) / n)
+
+mean_phat
+sd_phat
+
+70*mean_phat*(1-mean_phat)
+
+```
+
+
+
+
+## Section 1.2
+The quantitative variable for this section is Salary. We will first check the normal distribution of the variable.
+
+```{r}
+
+
+```
+
+# Introduction
+
+##1.
+
+
