@@ -92,13 +92,57 @@ sd_phat
 ## Section 1.2
 The quantitative variable for this section is Salary. We will first check the normal distribution of the variable.
 
-```{r}
+Population: 
 
+```{r}
+ed_df %>%
+  ggplot(mapping = aes(x = Starting_Salary)) +
+  geom_histogram(fill="salmon")
+
+ed_df %>%
+  ggplot(mapping = aes(sample = Starting_Salary)) +
+  stat_qq() +
+  stat_qq_line(color="red")
+
+# population mean 
+mu <- mean(ed_df$Starting_Salary)
+
+# population std dev
+sigma <- sd(ed_df$Starting_Salary)
+
+
+#Creating sample of 20
+ed_sample_df <- sample_n(ed_df, size = 20,replace = F)
 
 ```
+X = IQ
+population = all alumni
+sample = 20 alumni
+sample size = 20 *(n=20)* alumni
+Xbar = mean starting salary of 20 random alumni
+$\mu x = mean starting salary of all alumni$
+$\mu bar{x}$ = mean of sample starting salary of 20 random alumni for all samples
 
 # Introduction
+
+
 
 ##1.
 
 
+
+
+# Simple Linear Regression
+In this section we are going to investigate if there is a linear relationship on whether a higher GPA reflects a higher starting salary.
+
+```{r}
+ed_lm <- lm(formula = Starting_Salary ~ University_GPA, data = ed_df)
+ed_lm
+
+
+ed_df %>% 
+  ggplot(mapping=aes(x=Starting_Salary, y=University_GPA)) +
+  geom_point() +
+  geom_smooth(method="lm",color="red", se=F) 
+
+```
