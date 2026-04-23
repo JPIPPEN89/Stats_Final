@@ -38,6 +38,8 @@ ed_df %>%
 
 prop <- 59/(80+261)
 prop
+
+
 ```
 
 ###a)
@@ -143,9 +145,40 @@ $\mu bar{x}$ = mean of sample starting salary of 20 random alumni for all sample
 a) Population: All alumni
 b) Sample: 400 alumni
 
+## Section 4.1: Quantitative Variables
+
+ 
+a) Variable: Starting salary of alumni - Quantitative
+b) Parameter: Mean starting salary of all alumni
+c) Statistic: Mean starting salary of 400 alumni
+
+```{r}
+# Point Estimate
+ed_df %>%
+  summarise(mean_sal = mean(Starting_Salary),
+            sd(x=Starting_Salary))
+
+x_bar <- 87562.5
+x_bar_sd <- 29685.42
+
+BSDA::tsum.test(mean.x = x_bar, s.x = x_bar_sd, n.x=400,
+                conf.level = .99)
+
+
+```
+
+Decision: We are 99% confident that the mean starting salary for alumni is between 83720.9 and 91404.1.
+
+
+X_bar = 87562.5
+
+Find the point estimate and 99% confidence interval for the population mean from the variable selected in Section 1.2.
+Formulate a research question to conduct a one sample t test hypothesis test based on the variable in section 1.2.
+
+
 ## Section 4.2: Qualitative Variables
 
-a) Variable: Alumni in senior level positions
+a) Variable: Alumni in senior level positions - Qualtitative
 b) Parameter: Proportion of all alumni in senior level positions
 c) Statistic: Proportion of 400 alumni in senior level positions
 
