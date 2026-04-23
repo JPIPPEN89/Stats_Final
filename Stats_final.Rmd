@@ -27,7 +27,9 @@ First we analyze the data.
 In this section we will investigate the number of alumni that went on to have senior level jobs, this will be our success, and 
 mid and entry level will count as our failure. In this section we will take a simple random sample of 50 alumni to determine the number of success is from binomial distribution.
 
-# Section 1.1
+# Probability Distributions
+
+## Section 1.1
 
 ```{r}
 # Senior Job level will be treated as success
@@ -38,14 +40,14 @@ prop <- 59/(80+261)
 prop
 ```
 
-##a)
+###a)
 1. n = 70, fixed number.
 2. Trials are independent and do not affect the outcome of other.
 3. There are only 2 outcomes, Senior = success, all others = failure.
 4. p = 0.02174981, is constant from the given population data.
 
 
-##b)
+###b)
 Now we will find the mean of the of the binomial random sample, so that we can determine the probability of the random varaible
 is more than its mean.
 
@@ -61,7 +63,7 @@ We will check the probability that the random variable is more than its mean
 ```
 We find that the probability that the random variable is more than 8.651026 to be  0.4377059.
 
-##c)
+###c)
 Next we describe the sampling distribution.
 
 population = 400 alumni
@@ -125,11 +127,72 @@ $\mu bar{x}$ = mean of sample starting salary of 20 random alumni for all sample
 
 # Introduction
 
-
-
 ##1.
 
+*a)*
 
+
+# Exploratory Data Analysis
+
+
+
+# One Sample: Confidence Interval and Hypothesis Testing
+
+## Section 4.0: Population and Sample
+
+a) Population: All alumni
+b) Sample: 400 alumni
+
+## Section 4.2: Qualitative Variables
+
+a) Variable: Alumni in senior level positions
+b) Parameter: Proportion of all alumni in senior level positions
+c) Statistic: Proportion of 400 alumni in senior level positions
+
+```{r}
+ed_df %>% count(Current_Job_Level)
+proportion <- 59/ 400
+proportion
+
+prop.test(x=59, n=400, conf.level = .98)
+```
+d)
+Point Estimate = .1475
+We are 98% confident that the proportion of alumni in senior level positions is between 0.1098738 and 0.1948188.
+
+e) We find that on average 15% of alumni end up in senior level positions at a signigicance level of 0.05. Can we expect more alumni in senior level positions?
+
+__Step 1__: Form the hypothesis.
+
+$\H_0: \mu = .15$ 
+$\H_A: \mu \gt .15$ 
+
+__Step 2__: What is the level of significance, $\alpha$?
+
+$\alpha = 0.05$
+
+
+__Step 0__: Check requirement
+
+* n $\le$ 0.05N (independent samples) 
+* Simple random sample 
+* $51 \gt 10 $
+
+```{r}
+# checking requirement
+400*.15*(1-.15)
+
+prop.test(x=59, n=400, p=.15, alternative = "greater")
+```
+Decision: Since p-value = 0.5279 > 0.05 alpha. We do not reject the null hypothesis.
+
+Conclusion: We do not reject the null hypothesis. There is insufficient evidence at alpha = 0.05 to say that the proportion of alumni in senior level positions is greater than .15.
+
+
+
+
+
+# Two Samples t-test - Independent Sampling Method
 
 
 # Simple Linear Regression
