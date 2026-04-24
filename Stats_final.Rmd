@@ -36,7 +36,7 @@ mid and entry level will count as our failure. In this section we will take a si
 ed_df %>%
   count(Current_Job_Level)
 
-prop <- 59/(80+261)
+prop <- 59/400
 prop
 
 
@@ -46,7 +46,7 @@ prop
 1. n = 70, fixed number.
 2. Trials are independent and do not affect the outcome of other.
 3. There are only 2 outcomes, Senior = success, all others = failure.
-4. p = 0.02174981, is constant from the given population data.
+4. p = 0.1475, is constant from the given population data.
 
 
 ###b)
@@ -63,7 +63,7 @@ We will check the probability that the random variable is more than its mean
 1 - pbinom(q=mean_sample, size=70, prob=prop)
 
 ```
-We find that the probability that the random variable is more than 8.651026 to be  0.4377059.
+We find that the probability that the random variable is more than 10.325 to be 0.4606525.
 
 ###c)
 Next we describe the sampling distribution.
@@ -166,11 +166,37 @@ BSDA::tsum.test(mean.x = x_bar, s.x = x_bar_sd, n.x=400,
 
 
 ```
+X_bar = 87562.5
 
 Decision: We are 99% confident that the mean starting salary for alumni is between 83720.9 and 91404.1.
 
+e) We find that the mean starting salary of an alumni is 77562.5 at a signigicance level of 0.05. Can we expect the starting salary to be different than the mean?
 
-X_bar = 87562.5
+
+$H_0: \mu = 87562.5$
+$H_A: \mu \ne 87562.5$
+
+* n $\le$ 0.05N (independent samples) 
+* Simple random sample 
+* 400 > 30
+
+```{r}
+BSDA::tsum.test(mean.x = 77562.5, 
+                s.x = 29685.42, 
+                n.x = 400,
+                mu = 87562.5,
+                alternative = "two.sided")
+
+```
+p-value: 5.654e-11
+Decision: Since p-value = .0000 < alpha 0.05, We reject $H_0$.
+Conclusion: We reject $H_0$, There is sufficient evidence at $\alpha = 0.05$ to say that the average starting salary of alumni is not equal to  
+
+
+
+
+
+
 
 Find the point estimate and 99% confidence interval for the population mean from the variable selected in Section 1.2.
 Formulate a research question to conduct a one sample t test hypothesis test based on the variable in section 1.2.
