@@ -94,32 +94,32 @@ sd_phat
 
 
 ## Section 1.2
-The quantitative variable for this section is Salary. We will first check the normal distribution of the variable.
+The quantitative variable for this section is Career_Satisfaction. We will first check the normal distribution of the variable.
 
 Population: 
 
 ```{r}
 ed_df %>%
-  ggplot(mapping = aes(x = Starting_Salary)) +
+  ggplot(mapping = aes(x = Career_Satisfaction)) +
   geom_histogram(fill="salmon")
 
 ed_df %>%
-  ggplot(mapping = aes(sample = Starting_Salary)) +
+  ggplot(mapping = aes(sample = Career_Satisfaction)) +
   stat_qq() +
   stat_qq_line(color="red")
 
 # population mean 
-mu <- mean(ed_df$Starting_Salary)
+mu <- mean(ed_df$Career_Satisfaction)
 
 # population std dev
-sigma <- sd(ed_df$Starting_Salary)
+sigma <- sd(ed_df$Career_Satisfaction)
 
 
 #Creating sample of 20
 ed_sample_df <- sample_n(ed_df, size = 20,replace = F)
 
 ```
-X = IQ
+X = Career Satisfaction Report
 population = all alumni
 sample = 20 alumni
 sample size = 20 *(n=20)* alumni
@@ -149,57 +149,49 @@ b) Sample: 400 alumni
 
  
 a) Variable: Starting salary of alumni - Quantitative
-b) Parameter: Mean starting salary of all alumni
-c) Statistic: Mean starting salary of 400 alumni
+b) Parameter: Mean career satisfaction of all alumni
+c) Statistic: Mean career satisfaction of 400 alumni
 
 ```{r}
 # Point Estimate
 ed_df %>%
-  summarise(mean_sal = mean(Starting_Salary),
-            sd(x=Starting_Salary))
+  summarise(mean_sal = mean(Career_Satisfaction),
+            sd(x=Career_Satisfaction))
 
-x_bar <- 87562.5
-x_bar_sd <- 29685.42
+x_bar <- 7.7925
+x_bar_sd <- 1.372645
 
 BSDA::tsum.test(mean.x = x_bar, s.x = x_bar_sd, n.x=400,
                 conf.level = .99)
 
 
 ```
-X_bar = 87562.5
+X_bar = 7.7925
 
-Decision: We are 99% confident that the mean starting salary for alumni is between 83720.9 and 91404.1.
+Decision: We are 99% confident that the mean career satisfaction for alumni is between 7.614866 and 7.970134.
 
-e) We find that the mean starting salary of an alumni is 77562.5 at a signigicance level of 0.05. Can we expect the starting salary to be different than the mean?
+e) We find that the mean career satisfaction of an alumni is 7.12 at a signigicance level of 0.05. Can we expect the career satisfaction to be different than the mean?
 
 
-$H_0: \mu = 87562.5$
-$H_A: \mu \ne 87562.5$
+$H_0: \mu = 7.12$
+$H_A: \mu \ne 7.12$
 
 * n $\le$ 0.05N (independent samples) 
 * Simple random sample 
 * 400 > 30
 
 ```{r}
-BSDA::tsum.test(mean.x = 77562.5, 
-                s.x = 29685.42, 
+BSDA::tsum.test(mean.x = 7.7925, 
+                s.x = 1.372645, 
                 n.x = 400,
-                mu = 87562.5,
+                mu = 7.12,
                 alternative = "two.sided")
 
 ```
-p-value: 5.654e-11
+p-value: 2.2e-16
 Decision: Since p-value = .0000 < alpha 0.05, We reject $H_0$.
-Conclusion: We reject $H_0$, There is sufficient evidence at $\alpha = 0.05$ to say that the average starting salary of alumni is not equal to  
+Conclusion: We reject $H_0$, There is sufficient evidence at $\alpha = 0.05$ to say that the average career satisfaction of alumni is not equal to  7.12.
 
-
-
-
-
-
-
-Find the point estimate and 99% confidence interval for the population mean from the variable selected in Section 1.2.
-Formulate a research question to conduct a one sample t test hypothesis test based on the variable in section 1.2.
 
 
 ## Section 4.2: Qualitative Variables
@@ -255,16 +247,17 @@ Conclusion: We do not reject the null hypothesis. There is insufficient evidence
 
 
 # Simple Linear Regression
-In this section we are going to investigate if there is a linear relationship on whether a higher GPA reflects a higher starting salary.
+In this section we are going to investigate if there is a linear relationship on whether students that work harder to achieve a higher GPA reflects a higher reporting of career satisfaction.
 
 ```{r}
-ed_lm <- lm(formula = Starting_Salary ~ University_GPA, data = ed_df)
+ed_lm <- lm(formula = Career_Satisfaction ~ University_GPA, data = ed_df)
 ed_lm
 
 
 ed_df %>% 
-  ggplot(mapping=aes(x=Starting_Salary, y=University_GPA)) +
+  ggplot(mapping=aes(x=Career_Satisfaction, y=University_GPA)) +
   geom_point() +
   geom_smooth(method="lm",color="red", se=F) 
 
+ed_lm %>% summary()
 ```
