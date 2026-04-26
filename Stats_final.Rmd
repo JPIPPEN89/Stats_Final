@@ -17,6 +17,8 @@ library(tidyverse)
 ```
 
 
+
+
 ```{r}
 ed_df <- read.csv('c:/Statistical_Methods/education_career_success.csv')
 ed_df
@@ -91,8 +93,6 @@ sd_phat
 ```
 
 
-
-
 ## Section 1.2
 The quantitative variable for this section is Career_Satisfaction. We will first check the normal distribution of the variable.
 
@@ -123,15 +123,30 @@ X = Career Satisfaction Report
 population = all alumni
 sample = 20 alumni
 sample size = 20 *(n=20)* alumni
-Xbar = mean starting salary of 20 random alumni
+Xbar = mean career satisfaction of 20 random alumni
 $\mu x = mean starting salary of all alumni$
 $\mu bar{x}$ = mean of sample starting salary of 20 random alumni for all samples
 
 # Introduction
 
 ##1.
-
+In this analysis we are exploring the links between performance in school linked to career success and satisfaction after school.
+This is important to understand that the effort that students put in to school work now will benefit them long after school is over with. 
 *a)*
+
+
+##2.
+We, generally, spend 40, sometimes more, hours per week at our careers during the week. Getting into the right career that we are happy or at least content with is important for overall well-being and mental health. This data analysis aims to tie together the importance of doing our best in school, because it is easy to slack off, because it could indeed shape our future selves sense of well-being.
+
+##3.
+We are using the Education & Career Success datset on Kaggle. This dataset explores how students' academic achievements, skills, and extracurricular activities translate into real-world career outcomes.
+
+Link to our dataset:
+https://www.kaggle.com/datasets/adilshamim8/education-and-career-success
+
+The dataset has 400 alumni recorded from various disciplines.The dataset gathers information in 3 key sections that have several different columns. The sections are Academic Performance, Skills & Extracurriculars, and Career Outcomes. Within these sections we have between 4 - 7 columns each to have enough data to draw conclusions from. Our groups variables of interest are, University_GPA, Career_Satisfaction, Current_Job_Level, and ... **NEEED MORE INFO**
+
+
 
 
 # Exploratory Data Analysis
@@ -148,7 +163,7 @@ b) Sample: 400 alumni
 ## Section 4.1: Quantitative Variables
 
  
-a) Variable: Starting salary of alumni - Quantitative
+a) Variable: Career Satisfaction of alumni - Quantitative
 b) Parameter: Mean career satisfaction of all alumni
 c) Statistic: Mean career satisfaction of 400 alumni
 
@@ -215,8 +230,8 @@ e) We find that on average 15% of alumni end up in senior level positions at a s
 
 __Step 1__: Form the hypothesis.
 
-$\H_0: \mu = .15$ 
-$\H_A: \mu \gt .15$ 
+$\H_0: p = .15$ 
+$\H_A: p \gt .15$ 
 
 __Step 2__: What is the level of significance, $\alpha$?
 
@@ -247,7 +262,12 @@ Conclusion: We do not reject the null hypothesis. There is insufficient evidence
 
 
 # Simple Linear Regression
-In this section we are going to investigate if there is a linear relationship on whether students that work harder to achieve a higher GPA reflects a higher reporting of career satisfaction.
+In this section we are going to investigate if there is a linear relationship on whether students that work harder to achieve a higher GPA reflects a higher reporting of career satisfaction with a significance level of 0.05.
+
+$H_0: \beta_1 = 0$
+$H_A: \beta_1 \ne 0$
+
+$\alpha = 0.05$
 
 ```{r}
 ed_lm <- lm(formula = Career_Satisfaction ~ University_GPA, data = ed_df)
@@ -261,3 +281,12 @@ ed_df %>%
 
 ed_lm %>% summary()
 ```
+P-value: .0000
+T-Statistic: 75.62
+
+Y-intercept Interpretation: Since GPA cannot be 0, there is no meaningful interpretation of the y-intercept.
+
+Decision: Since P-value = .0000 < alpha = 0/05, we reject $H_0$.
+
+Conclusion: We reject $H_0$. There is sufficient evidence at alpha = 0.05, to say that there is a linear relationship between a high GPA and later having more satisfaction in their career.
+
