@@ -33,8 +33,10 @@ mid and entry level will count as our failure. In this section we will take a si
 
 ## Section 1.1
 
+
+Senior Job level will be treated as success.
+
 ```{r}
-# Senior Job level will be treated as success
 ed_df %>%
   count(Current_Job_Level)
 
@@ -126,6 +128,7 @@ P(X>8)
 # population mean 
 mu <- mean(ed_df$Career_Satisfaction)
 mu
+
 # population std dev
 sigma <- sd(ed_df$Career_Satisfaction)
 
@@ -152,7 +155,7 @@ a)
 
 The following are research questions in this analysis:
 
-1. What is the proportion of alumni who achieve senior-level positions, and what is a confidence interval estimate for this proportion?
+1. What is the proportion of alumni who achieve senior-level positions, and what is the confidence interval?
 
 2. What is the average career satisfaction of alumni, and what is a confidence interval estimate for the population mean?
 
@@ -176,7 +179,7 @@ We are using the Education & Career Success datset on Kaggle. This dataset explo
 Link to our dataset:
 https://www.kaggle.com/datasets/adilshamim8/education-and-career-success
 
-The dataset has 400 alumni recorded from various disciplines.The dataset gathers information in 3 key sections that have several different columns. The sections are Academic Performance, Skills & Extracurriculars, and Career Outcomes. Within these sections we have between 4 - 7 columns each to have enough data to draw conclusions from. Our groups variables of interest are, University_GPA, Career_Satisfaction, Current_Job_Level, and ... **NEEED MORE INFO**
+The dataset has 400 alumni recorded from various disciplines.The dataset gathers information in 3 key sections that have several different columns. The sections are Academic Performance, Skills & Extracurriculars, and Career Outcomes. Within these sections we have between 4 - 7 columns each to have enough data to draw conclusions from. Our groups variables of interest are, University_GPA, Career_Satisfaction, Current_Job_Level, Starting_Salary, and Gender.
 
 
 
