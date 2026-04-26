@@ -108,31 +108,63 @@ ed_df %>%
   stat_qq() +
   stat_qq_line(color="red")
 
-# population mean 
-mu <- mean(ed_df$Career_Satisfaction)
-
-# population std dev
-sigma <- sd(ed_df$Career_Satisfaction)
-
-
-#Creating sample of 20
-ed_sample_df <- sample_n(ed_df, size = 20,replace = F)
 
 ```
 X = Career Satisfaction Report
 population = all alumni
 sample = 20 alumni
 sample size = 20 *(n=20)* alumni
-Xbar = mean career satisfaction of 20 random alumni
-$\mu x = mean starting salary of all alumni$
-$\mu bar{x}$ = mean of sample starting salary of 20 random alumni for all samples
+$\bar{x} = 7.8$ = mean career satisfaction of 20 random alumni 
+$\mu x = 7.7925$  mean career satisfaction of all alumni
+
+Histogram Plot shows a skew to the left, but qq plot looks approximatly normal.
+
+We will find the probability of career satisfaction being greater than 8 for a random selected student.
+P(X>8)
+
+```{r}
+# population mean 
+mu <- mean(ed_df$Career_Satisfaction)
+mu
+# population std dev
+sigma <- sd(ed_df$Career_Satisfaction)
+
+
+#Creating sample of 20
+ed_sample_df <- sample_n(ed_df, size = 20,replace = F)
+#ed_sample_df
+
+x_bar <- mean(ed_sample_df$Career_Satisfaction)
+x_bar
+
+1 - pnorm(q=8, mean=mu, sd=sigma/sqrt(20))
+
+```
+P(X>8) = .2495
 
 # Introduction
 
 ##1.
 In this analysis we are exploring the links between performance in school linked to career success and satisfaction after school.
 This is important to understand that the effort that students put in to school work now will benefit them long after school is over with. 
-*a)*
+
+a)
+
+The following are research questions in this analysis:
+
+1. What is the proportion of alumni who achieve senior-level positions, and what is a confidence interval estimate for this proportion?
+
+2. What is the average career satisfaction of alumni, and what is a confidence interval estimate for the population mean?
+
+3. Is the proportion of alumni in senior-level positions greater than 15%?
+
+4. Is the average career satisfaction of alumni different from 7.12?
+
+5. Is there a difference in average starting salaries between male and female alumni?
+
+6. Is there a linear relationship between university GPA and career satisfaction?
+
+These questions will be addressed using statistical methods including confidence intervals, hypothesis testing, and regression analysis.
 
 
 ##2.
@@ -150,6 +182,82 @@ The dataset has 400 alumni recorded from various disciplines.The dataset gathers
 
 
 # Exploratory Data Analysis
+
+## Section 3.0
+
+a)Quantitative:
+Career Satisfaction:
+```{r}
+ed_df %>% 
+  summarize(mean_sat = mean(Career_Satisfaction, na.rm = TRUE), median_sat = median(Career_Satisfaction, na.rm = TRUE))
+range(ed_df$Career_Satisfaction)
+ed_df %>% 
+  ggplot(mapping = aes(x = Career_Satisfaction)) + 
+  geom_histogram(color = "black", fill = "pink", binwidth = 1) +
+  labs(title = "Distribution of Alumni Career Satisfaction", 
+       x = "Career Satisfaction Score (1-10)", 
+       y = "Frequency (Count)")
+```
+
+Center: Mean = 7.7925, Median = 8
+Shape: Skewed-left
+Spread:Range = 5-10
+
+Salary:
+```{r}
+ed_df %>% 
+  summarize(mean_sal = mean(Starting_Salary, na.rm = TRUE), median_sal = median(Starting_Salary, na.rm = TRUE))
+range(ed_df$Starting_Salary)
+ed_df %>% 
+  ggplot(mapping = aes(x = Starting_Salary)) + 
+  geom_histogram(color = "black", fill = "pink") +labs(title = "Distribution of Alumni Starting Salaries",
+       x = "Starting Salary ($)",
+       y = "Count of Alumni")
+```
+
+Center:Mean = $87,562.50, Median = $84,000
+Shape: Unimodal
+Spread:Range = $31,000-$152,000
+
+University GPA
+```{r}
+ed_df %>% 
+  summarize(mean_gpa = mean(University_GPA, na.rm = TRUE), median_gpa = median(University_GPA, na.rm = TRUE))
+range(ed_df$University_GPA)
+ed_df %>% 
+  ggplot(mapping = aes(x = University_GPA)) + 
+  geom_histogram(color = "black", fill = "pink", binwidth = 0.1) +
+  labs(title = "Distribution of University GPA",
+       x = "University GPA",
+       y = "Count of Alumni")
+```
+
+Center: Mean = 3.441, Median = 3.45
+Shape: Approximately normal
+Spread: Range = 2.8-4.0
+
+b) Qualitative
+Current Job Level:
+```{r}
+ed_df %>% 
+  count(Current_Job_Level, name = "freq") 
+
+ed_df %>% 
+  ggplot(aes(x = Current_Job_Level)) + 
+  geom_bar(fill = "pink", color = "black") + 
+  labs(title = "Current Job Levels", x = "Job Level", y = "Count of Alumni")
+```
+
+Gender:
+```{r}
+ed_df %>% 
+  count(Gender, name = "freq") 
+
+ed_df %>% 
+  ggplot(aes(x = Gender)) + 
+  geom_bar(fill = "pink", color = "black") + 
+  labs(title = "Gender Distribution", x = "Gender", y = "Count of Alumni")
+```
 
 
 
@@ -256,9 +364,54 @@ Conclusion: We do not reject the null hypothesis. There is insufficient evidence
 
 
 
-
-
 # Two Samples t-test - Independent Sampling Method
+
+## Section 5.0
+###a)
+What are the populations? 
+Population 1: All male Students
+Population 2: All female students
+###b)
+What are the samples?
+sample 1: 200 male students
+sample 2: 200 female students
+###c)
+What are the variables? What type of variables are they?
+starting salary - quantitative
+###d)
+What are the parameters?
+$\mu_m$ - mean starting salaries of all male students
+$\mu_f$ - mean starting salaries of all female students
+###e)
+What are the statistics?
+$\bar{x}_m$ - mean starting salaries of 200 male students
+$\bar{x}_f$ - mean starting salaries of 200 female students
+###f)
+Run a hypothesis test to test your hypothesis.
+Requirements:
+SRS
+$n_1 = 200 < 0.05N_1 and n_2 = 200 < 0.05N_2$
+$n_1 = 200 > 30 and n_2 = 200 > 30$
+Hypothesis:
+$H_0:\mu_m - \mu_f = 0$
+$H_A:\mu_m - \mu_f \neq 0$
+let $\alpha = 0.05$
+```{r}
+male_students <- ed_df %>% filter(Gender == "Male")
+female_students <- ed_df %>% filter(Gender == "Female")
+t.test(x = male_students$Starting_Salary, y = female_students$Starting_Salary, mu = 0, alternative = "two.sided")
+
+```
+p-value = 0.0008928
+Decision: Since the p-value = 0.0008928 < $\alpha = 0.05$, we reject $H_0$.
+Conclusion: There is sufficient evidence to suggest that there is a starting salary difference between the male and female students. 
+###g)
+Use the Confidence interval to test your hypothesis.
+```{r}
+t.test(x = male_students$Starting_Salary, y = female_students$Starting_Salary, conf.level = 0.99)
+```
+Conclusion: We are 99% confident that the mean starting salary difference between male and female students is between -17402.975 and -2227.025. Since 0 is not included in the confidence interval and all of the interval is negative, we reject $H_0$.There is sufficient evidence that female graduates will earn more on average than male graduates at their first job post graduation.
+
 
 
 # Simple Linear Regression
@@ -282,7 +435,7 @@ ed_df %>%
 ed_lm %>% summary()
 ```
 P-value: .0000
-T-Statistic: 75.62
+Test Statistic: 75.62
 
 Y-intercept Interpretation: Since GPA cannot be 0, there is no meaningful interpretation of the y-intercept.
 
