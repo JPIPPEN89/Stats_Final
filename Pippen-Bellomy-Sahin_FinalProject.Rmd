@@ -435,10 +435,13 @@ ed_lm <- lm(formula = Career_Satisfaction ~ University_GPA, data = ed_df)
 ed_lm
 
 
-ed_df %>% 
-  ggplot(mapping=aes(x=Career_Satisfaction, y=University_GPA)) +
-  geom_point() +
-  geom_smooth(method="lm",color="red", se=F) 
+ed_stats <- ed_lm %>% augment()
+
+ed_stats %>% 
+  ggplot(mapping = aes(sample=.resid)) +
+  stat_qq() +
+  stat_qq_line(color = "blue")
+
 
 ed_lm %>% summary()
 ```
