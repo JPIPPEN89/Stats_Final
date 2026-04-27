@@ -1,12 +1,12 @@
---
-title: "Chapter 8"
+---
+title: "MATH 3311 Statistical Methods Final Project"
 output: 
   html_document:
      code_folding: show
      theme: flatly
      highlight: tango
      toc: yes
-     number_sections: yes
+     number_sections: no
      df_print: paged
      toc_float: true
 ---
@@ -16,71 +16,62 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
-
-
-
 ```{r}
-ed_df <- read.csv('c:/Statistical_Methods/education_career_success.csv')
+# SET PATH TO USE
+file <- "education_career_success.csv"
+ed_df <- read.csv(file)
 ed_df
-
 ```
-First we analyze the data.
 
+# 1. Probability Distributions
+For this section, data uploaded is assumed to be population data.
+
+## 1.1 Qualitative Data
 In this section we will investigate the number of alumni that went on to have senior level jobs, this will be our success, and 
-mid and entry level will count as our failure. In this section we will take a simple random sample of 50 alumni to determine the number of success is from binomial distribution.
-
-# Probability Distributions
-
-## Section 1.1
-
+mid and entry level will count as our failure. In this section we will take a simple random sample of 70 alumni to determine the number of success is from binomial distribution.
 
 Senior Job level will be treated as success.
-
 ```{r}
 ed_df %>%
   count(Current_Job_Level)
 
 prop <- 59/400
 prop
-
-
 ```
 
-###a)
-1. n = 70, fixed number.
+### a)
+1. $n = 70$, fixed number.
 2. Trials are independent and do not affect the outcome of other.
 3. There are only 2 outcomes, Senior = success, all others = failure.
-4. p = 0.1475, is constant from the given population data.
+4. $p = 0.1475$, is constant from the given population data.
 
-
-###b)
-Now we will find the mean of the of the binomial random sample, so that we can determine the probability of the random varaible
-is more than its mean.
+### b)
+Now we will find the mean of the of the binomial random sample, so that we can determine the probability of the random variable being more than its mean.
 
 ```{r}
 mean_sample <- 70 * prop
 mean_sample
 ```
+
 We will check the probability that the random variable is more than its mean
 
 ```{r}
 1 - pbinom(q=mean_sample, size=70, prob=prop)
-
 ```
-We find that the probability that the random variable is more than 10.325 to be 0.4606525.
 
-###c)
+We find that the probability that the random variable is more than its mean 10.325 to be 0.4606525.
+
+### c)
 Next we describe the sampling distribution.
 
-population = 400 alumni
-sample = 70 random alumni
-variable = Alumni in senior level positions
-p_hat = .1730205
-sd =.05349475
+population $N = 400$ alumni  
+sample $n = 70$ random alumni  
+variable = Alumni current job level  
+$\hat{p} = .1730205$  
+sd = .05349475
 10.016 > 10
 
 ```{r}
-
 n <- 70
 p <- prop
 
@@ -91,15 +82,14 @@ mean_phat
 sd_phat
 
 70*mean_phat*(1-mean_phat)
-
 ```
 
+<hr style="border: 2px solid pink;">
 
-## Section 1.2
+## 1.2 Quantitative Data
 The quantitative variable for this section is Career_Satisfaction. We will first check the normal distribution of the variable.
 
 Population: 
-
 ```{r}
 ed_df %>%
   ggplot(mapping = aes(x = Career_Satisfaction)) +
@@ -109,20 +99,18 @@ ed_df %>%
   ggplot(mapping = aes(sample = Career_Satisfaction)) +
   stat_qq() +
   stat_qq_line(color="red")
-
-
 ```
-X = Career Satisfaction Report
-population = all alumni
-sample = 20 alumni
-sample size = 20 *(n=20)* alumni
-$\bar{x} = 7.8$ = mean career satisfaction of 20 random alumni 
-$\mu x = 7.7925$  mean career satisfaction of all alumni
+X = Career Satisfaction Report  
+population = all alumni  
+sample = 20 alumni  
+sample size $n = 20$  
+$\bar{x} = 7.8$ = mean career satisfaction of 20 random alumni  
+$\mu_x = 7.7925$ = mean career satisfaction of all alumni  
 
 Histogram Plot shows a skew to the left, but qq plot looks approximatly normal.
 
 We will find the probability of career satisfaction being greater than 8 for a random selected student.
-P(X>8)
+$P(X>8) =$ ?  
 
 ```{r}
 # population mean 
@@ -132,7 +120,6 @@ mu
 # population std dev
 sigma <- sd(ed_df$Career_Satisfaction)
 
-
 #Creating sample of 20
 ed_sample_df <- sample_n(ed_df, size = 20,replace = F)
 #ed_sample_df
@@ -141,39 +128,48 @@ x_bar <- mean(ed_sample_df$Career_Satisfaction)
 x_bar
 
 1 - pnorm(q=8, mean=mu, sd=sigma/sqrt(20))
-
 ```
-P(X>8) = .2495
+$P(X>8) = 0.2495$
 
-# Introduction
+<hr style="border: 2px solid pink;">
 
-##1.
+# 2. Introduction
+
+## 1. Research Objectives
+
 In this analysis we are exploring the links between performance in school linked to career success and satisfaction after school.
 This is important to understand that the effort that students put in to school work now will benefit them long after school is over with. 
 
-a)
-
 The following are research questions in this analysis:
 
-1. What is the proportion of alumni who achieve senior-level positions, and what is the confidence interval?
+### a)
+What is the proportion of alumni who achieve senior-level positions, and what is the confidence interval?
 
-2. What is the average career satisfaction of alumni, and what is a confidence interval estimate for the population mean?
+### b)
+What is the average career satisfaction of alumni, and what is a confidence interval estimate for the population mean?
 
-3. Is the proportion of alumni in senior-level positions greater than 15%?
+### c)
+Is the proportion of alumni in senior-level positions greater than 15%?
 
-4. Is the average career satisfaction of alumni different from 7.12?
+### d)
+Is the average career satisfaction of alumni different from 7.12?
 
-5. Is there a difference in average starting salaries between male and female alumni?
+### e)
+Is there a difference in average starting salaries between male and female alumni?
 
-6. Is there a linear relationship between university GPA and career satisfaction?
+### f)
+Is there a linear relationship between university GPA and career satisfaction?
 
 These questions will be addressed using statistical methods including confidence intervals, hypothesis testing, and regression analysis.
 
+<hr style="border: 2px solid pink;">
 
-##2.
-We, generally, spend 40, sometimes more, hours per week at our careers during the week. Getting into the right career that we are happy or at least content with is important for overall well-being and mental health. This data analysis aims to tie together the importance of doing our best in school, because it is easy to slack off, because it could indeed shape our future selves sense of well-being.
+## 2. Responsible Living
+We generally spend 40, sometimes more, hours per week at our careers during the week. Getting into the right career that we are happy or at least content with is important for overall well-being and mental health. This data analysis aims to tie together the importance of doing our best in school, because it is easy to slack off, because it could indeed shape our future selves sense of well-being.
 
-##3.
+<hr style="border: 2px solid pink;">
+
+## 3. Data Overview
 We are using the Education & Career Success datset on Kaggle. This dataset explores how students' academic achievements, skills, and extracurricular activities translate into real-world career outcomes.
 
 Link to our dataset:
@@ -181,14 +177,11 @@ https://www.kaggle.com/datasets/adilshamim8/education-and-career-success
 
 The dataset has 400 alumni recorded from various disciplines.The dataset gathers information in 3 key sections that have several different columns. The sections are Academic Performance, Skills & Extracurriculars, and Career Outcomes. Within these sections we have between 4 - 7 columns each to have enough data to draw conclusions from. Our groups variables of interest are, University_GPA, Career_Satisfaction, Current_Job_Level, Starting_Salary, and Gender.
 
+<hr style="border: 2px solid pink;">
 
+# 3. Exploratory Data Analysis
 
-
-# Exploratory Data Analysis
-
-## Section 3.0
-
-a)Quantitative:
+## a) Quantitative:
 Career Satisfaction:
 ```{r}
 ed_df %>% 
@@ -239,7 +232,9 @@ Center: Mean = 3.441, Median = 3.45
 Shape: Approximately normal
 Spread: Range = 2.8-4.0
 
-b) Qualitative
+<hr style="border: 2px solid pink;">
+
+## b) Qualitative
 Current Job Level:
 ```{r}
 ed_df %>% 
@@ -262,22 +257,28 @@ ed_df %>%
   labs(title = "Gender Distribution", x = "Gender", y = "Count of Alumni")
 ```
 
+# 4. One Sample: Confidence Interval and Hypothesis Testing
 
+## 4.0: Population and Sample
 
-# One Sample: Confidence Interval and Hypothesis Testing
+### a)
+Population: All alumni
 
-## Section 4.0: Population and Sample
+### b)
+Sample: 400 alumni
 
-a) Population: All alumni
-b) Sample: 400 alumni
+## 4.1: Quantitative Variables
 
-## Section 4.1: Quantitative Variables
+### a) Variable
+Career Satisfaction of alumni - Quantitative
 
- 
-a) Variable: Career Satisfaction of alumni - Quantitative
-b) Parameter: Mean career satisfaction of all alumni
-c) Statistic: Mean career satisfaction of 400 alumni
+### b) Parameter
+Mean career satisfaction of all alumni
 
+### c) Statistic
+Mean career satisfaction of 400 alumni
+
+### d)
 ```{r}
 # Point Estimate
 ed_df %>%
@@ -296,8 +297,8 @@ X_bar = 7.7925
 
 Decision: We are 99% confident that the mean career satisfaction for alumni is between 7.614866 and 7.970134.
 
-e) We find that the mean career satisfaction of an alumni is 7.12 at a signigicance level of 0.05. Can we expect the career satisfaction to be different than the mean?
-
+### e)
+We find that the mean career satisfaction of an alumni is 7.12 at a signigicance level of 0.05. Can we expect the career satisfaction to be different than the mean?
 
 $H_0: \mu = 7.12$
 $H_A: \mu \ne 7.12$
@@ -318,13 +319,16 @@ p-value: 2.2e-16
 Decision: Since p-value = .0000 < alpha 0.05, We reject $H_0$.
 Conclusion: We reject $H_0$, There is sufficient evidence at $\alpha = 0.05$ to say that the average career satisfaction of alumni is not equal to  7.12.
 
+## 4.2: Qualitative Variables
 
+### a) Variable
+Alumni in senior level positions - Qualtitative
 
-## Section 4.2: Qualitative Variables
+### b) Parameter
+Proportion of all alumni in senior level positions
 
-a) Variable: Alumni in senior level positions - Qualtitative
-b) Parameter: Proportion of all alumni in senior level positions
-c) Statistic: Proportion of 400 alumni in senior level positions
+### c) Statistic
+Proportion of 400 alumni in senior level positions
 
 ```{r}
 ed_df %>% count(Current_Job_Level)
@@ -333,11 +337,13 @@ proportion
 
 prop.test(x=59, n=400, conf.level = .98)
 ```
-d)
+
+### d)
 Point Estimate = .1475
 We are 98% confident that the proportion of alumni in senior level positions is between 0.1098738 and 0.1948188.
 
-e) We find that on average 15% of alumni end up in senior level positions at a signigicance level of 0.05. Can we expect more alumni in senior level positions?
+### e)
+We find that on average 15% of alumni end up in senior level positions at a signigicance level of 0.05. Can we expect more alumni in senior level positions?
 
 __Step 1__: Form the hypothesis.
 
@@ -364,7 +370,6 @@ prop.test(x=59, n=400, p=.15, alternative = "greater")
 Decision: Since p-value = 0.5279 > 0.05 alpha. We do not reject the null hypothesis.
 
 Conclusion: We do not reject the null hypothesis. There is insufficient evidence at alpha = 0.05 to say that the proportion of alumni in senior level positions is greater than .15.
-
 
 
 # Two Samples t-test - Independent Sampling Method
